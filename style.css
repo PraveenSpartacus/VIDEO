@@ -25,13 +25,13 @@ body {
 }
 #menu {
 	width: 95%;
-	max-height: 50px;
-	height: 10%;
+	/* max-height: 40px; */
+	height: 6%;
 	background-color: rgba(0, 0, 0, 0.596);
 	position: absolute;
 	bottom: 5%;
 	left: 2.5%;
-	border-radius: 15px;
+	border-radius: 9px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
@@ -39,7 +39,7 @@ body {
 	z-index: 12;
 }
 .icon {
-	width: 4%;
+	width: 1.7%;
 	height: 100%;
 	/* background-color: red; */
 	display: flex;
@@ -50,17 +50,18 @@ body {
 	cursor: pointer;
 }
 #playPauseIcon{
-	height: 50%;
+	height: 40%;
 }
 .playback {
-	width: 60%;
-	height: 10%;
+	width: 67%;
+	height: 7%;
 	background-color: rgba(255, 255, 255, 0.35);
 }
 .playback>#playLine{
 	height: 100%;
 	/* width: 50%; */
 	background-color: white;
+	transition: width 0.05s;
 }
 
 #speakerIcon{
@@ -110,7 +111,7 @@ body {
 	align-items: center;
 	z-index: 5;
 	right: 5%;
-	bottom: calc(50px + 1%);
+	bottom: 2%;
 	opacity: 0;
 	transition: bottom 0.2s, opacity 0.2s;
 }
@@ -118,7 +119,7 @@ body {
 	display: none;
 }
 .audioListOpen{
-	bottom: calc(50px + 7%);
+	bottom: 12%;
 	opacity: 1;
 }
 .audioListOpen > button{
@@ -153,7 +154,7 @@ body {
 	color: white;
 } */
 .timer{
-	width: 15%;
+	width: fit-content;
 	height: 100%;
 	/* background-color: turquoise; */
 	display: flex;
@@ -164,13 +165,17 @@ body {
 	font-weight: 800;
 }
 .timer > span{
-	width: 45%;
+	width: fit-content;
 	/* background-color: violet; */
-	font-size: 9px;
+	font-size: 12px;
 	font-weight: 700;
 	height: fit-content;
 	font-family: 'Roboto', sans-serif;
 	color: white;
+	/* border: 1px solid black; */
+}
+.timer>#by{
+	padding: 0 5px;
 }
 @media all and (orientation: portrait) {
 	#video {
@@ -181,6 +186,11 @@ body {
 
 	#menu{
 		border-radius: 5px;
+		max-height: 50px;
+		height: 10%;
+	}
+	.icon{
+		width: 3%;
 	}
 	.audioList{
 		bottom: 10%;
@@ -189,5 +199,23 @@ body {
 	.audioListOpen{
 		bottom: 18%;
 		opacity: 1;
+	}
+	
+	.timer > span{
+		font-size: 9px;
+	}
+	.playback{
+		width: 60%;
+	}
+}
+@media all and (orientation: portrait) and (max-width: 400px){
+	.timer > span{
+		font-size: 7px;
+	}
+}
+
+@media all and (orientation: portrait) and (max-width: 335px){
+	.timer > span{
+		font-size: 6px;
 	}
 }
