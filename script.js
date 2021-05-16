@@ -173,7 +173,7 @@ function updateTimer() {
             timerString = timerValue.toString()
         timer.innerHTML = '00:' + timerString;
 
-        playLine.style.width = ((timerValue / 30) * 100).toString() + '%';
+        playLine.style.width = ((video.currentTime / 30) * 100).toString() + '%';
         console.log(playLine.style.width);
     }, 50)
 }
