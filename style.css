@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgb(32, 32, 32);
+}
+#container {
+	position: relative;
+	height: fit-content;
+	width: fit-content;
+}
+#video {
+	height: 70vh;
+	width: auto;
+	border-radius: 25px;
+	box-shadow: 0 0 100px 20px black;
+}
+#menu {
+	width: 95%;
+	max-height: 50px;
+	height: 10%;
+	background-color: rgba(0, 0, 0, 0.596);
+	position: absolute;
+	bottom: 5%;
+	left: 2.5%;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	z-index: 12;
+}
+.icon {
+	width: 4%;
+	height: 100%;
+	/* background-color: red; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.icon > svg{
+	cursor: pointer;
+}
+#playPauseIcon{
+	height: 50%;
+}
+.playback {
+	width: 60%;
+	height: 10%;
+	background-color: rgba(255, 255, 255, 0.35);
+}
+.playback>#playLine{
+	height: 100%;
+	/* width: 50%; */
+	background-color: white;
+}
+
+#speakerIcon{
+	height: 70%;
+}
+
+#speakerIcon > #line{
+	transition: d 0.15s;
+	fill: white;
+}
+#speakerIcon > .musicOff{
+	stroke: white;
+	d: path("M 5 5 L 70 70");
+}
+
+#playPauseIcon > path{
+	transition: d 0.3s;
+}
+.ToPlay > path {
+	d: path("M 0 0 L 45 33.5 L 19.5 54.5 L 0 70 L 0 0 Z");
+}
+.ToPlay > rect{
+	opacity: 0;
+}
+
+#settingsIcon{
+	height: 70%;
+	transform-origin: center;
+	transition: transform 0.2s;
+}
+#settingsIcon:hover{
+	/* transform-origin: center; */
+	transform: rotate(25deg);
+}
+#settingsIcon > path{
+	fill: rgb(255, 255, 255,0.7);
+}
+.audioList{
+	position: absolute;
+	width: 150px;
+	height: 80px;
+	background-color: rgba(0, 0, 0, 0.8);
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	z-index: 5;
+	right: 5%;
+	bottom: calc(50px + 1%);
+	opacity: 0;
+	transition: bottom 0.2s, opacity 0.2s;
+}
+.audioList > button{
+	display: none;
+}
+.audioListOpen{
+	bottom: calc(50px + 7%);
+	opacity: 1;
+}
+.audioListOpen > button{
+	display: block;
+	height: 30%;
+	width: 80%;
+	border: none;
+	border-radius: 5px;
+	font-weight: 600;
+	border: 2px solid white;
+	color: white;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.audioList>.currentLanguage{
+	background-color: white;
+	color: black;
+}
+/* .song {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	background-color: white;
+	border: 2px solid rgb(24, 24, 24);
+	color: black;
+	font-size: 20px;
+	font-weight: 600;
+}
+.highlight {
+	background-color: rgb(24, 24, 24);
+	color: white;
+} */
+.timer{
+	width: 15%;
+	height: 100%;
+	/* background-color: turquoise; */
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	color: rgba(255, 255, 255, 0.61);
+	font-weight: 800;
+}
+.timer > span{
+	width: 45%;
+	/* background-color: violet; */
+	font-size: 9px;
+	font-weight: 700;
+	height: fit-content;
+	font-family: 'Roboto', sans-serif;
+	color: white;
+}
+@media all and (orientation: portrait) {
+	#video {
+		width: 95vw;
+		height: auto;
+		border-radius: 15px;
+	}
+
+	#menu{
+		border-radius: 5px;
+	}
+	.audioList{
+		bottom: 10%;
+		right: 2%;
+	}
+	.audioListOpen{
+		bottom: 18%;
+		opacity: 1;
+	}
+}
