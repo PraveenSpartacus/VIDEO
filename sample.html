@@ -6,61 +6,184 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
 </head>
 <style>
-    #playPauseIcon>path {
-        animation: morph 1s infinite alternate forwards;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
-    @keyframes morph {
-        0% {
-            d: path("M 0 0 L 15 0 L 15 70 L 0 70 L 0 0 Z");
-        }
-
-        100% {
-            d: path("M 0 0 L 45 33.5 L 19.5 54.5 L 0 70 L 0 0 Z");
-        }
+    #my-video {
+        width: 70vw;
+        height: 35vw;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
 
-    #line {
-        animation: draw 1s infinite alternate forwards;
-    }
-
-    @keyframes draw {
-        0% {
-            d: path("M 99.1016 71.0649 L 99.1016 71.0649");
-        }
-
-        100% {
-            d: path("M 99.1016 71.0649 L 434.5 463.5")");
-
+    @media all and (orientation: portrait) {
+        #my-video {
+            width: 100vw;
+            height: 50vw;
         }
     }
 </style>
 
 <body>
-    <svg id="playPauseIcon" width="45" height="70" viewBox="0 0 45 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 0 0 L 15 0 L 15 70 L 0 70 L 0 0 Z" fill="black" />
-        <rect x="30" width="15" height="70" fill="black" />
-    </svg>
-
-    <svg width="500" height="500" viewBox="0 0 75 75">
-        <path d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z"
-            style="stroke:#111;stroke-width:5;stroke-linejoin:round;fill:#111;" />
-        <path d="M48,27.6a19.5,19.5 0 0 1 0,21.4M55.1,20.5a30,30 0 0 1 0,35.6M61.6,14a38.8,38.8 0 0 1 0,48.6"
-            style="fill:none;stroke:#111;stroke-width:5;stroke-linecap:round" />
-        <path d="M14.8652 10.6597L65.175 69.5249" stroke="#B7B7B7" stroke-width="4" stroke-linecap="round" />
-    </svg>
 
 
-
-    <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-    </svg>
-
-
+    <video id="my-video" class="video-js vjs-big-play-centered" controls preload="metadata" data-setup='{}'>
+        <!-- <source src="https://drive.google.com/uc?export=download&id=1YgYW4-T9O4wcLbA8KlthONJov6lSJikm" type='video/mp4'> -->
+        <source src="//bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8" type="application/x-mpegURL">
+    </video>
 
 
 </body>
+<script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-quality-levels/2.1.0/videojs-contrib-quality-levels.min.js"
+    integrity="sha512-IcVOuK95FI0jeody1nzu8wg/n+PtQtxy93L8irm+TwKfORimcB2g4GSHdc0CvsK8gt1yJSbO6fCtZggBvLDDAQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="./videojs-hls-quality-selector.min.js"></script>
+
+<script>
+    var player = videojs('my-video');
+
+    player.hlsQualitySelector();
+</script>
+
+<!-- <script>
+    videojs.Hls.xhr.beforeRequest = function (options) {
+        /*
+         * Modifications to requests that will affect every player.
+         */
+
+        let newUri = options.uri.includes('.ts') ? options.uri + "?q=testDePrueba" : options.uri;
+
+        return {
+            ...options,
+            uri: newUri
+        };
+    };
+
+
+
+    let player = videojs("my-video", {}, () => {
+        console.log("Inicio")
+
+
+        player.one("loadedmetadata", () => {
+
+            let calidades = player
+                .tech({ IWillNotUseThisInPlugins: true })
+                .hls.representations();
+
+            crearBotonesCalidades({
+                class: "item",
+                calidades: calidades,
+                father: player.controlBar.el_
+            });
+
+            player.play();
+
+            // ---------------------------------------------- //
+
+            function crearBotonAutoCalidad(params) {
+                let button = document.createElement("div");
+
+                button.id = "auto";
+                button.innerText = `Auto`;
+
+                button.classList.add("selected");
+
+                if (params && params.class) button.classList.add(params.class);
+
+                button.addEventListener("click", () => {
+                    removeSelected(params);
+                    button.classList.add("selected");
+                    calidades.map(calidad => calidad.enabled(true));
+                });
+
+                return button;
+            }
+
+            function crearBotonesCalidades(params) {
+
+                let contentMenu = document.createElement('div');
+                let menu = document.createElement('div');
+                let icon = document.createElement('div');
+
+                let fullscreen = params.father.querySelector('.vjs-fullscreen-control');
+                contentMenu.appendChild(icon);
+                contentMenu.appendChild(menu);
+                fullscreen.before(contentMenu);
+
+                menu.classList.add('menu');
+                icon.classList.add('icon', 'vjs-icon-cog');
+                contentMenu.classList.add('contentMenu');
+
+                let botonAuto = crearBotonAutoCalidad(params);
+
+                menu.appendChild(botonAuto);
+
+                calidades.sort((a, b) => {
+                    return a.height > b.height ? 1 : 0;
+                });
+
+                calidades.map(calidad => {
+                    let button = document.createElement("div");
+
+                    if (params && params.class) button.classList.add(params.class);
+
+                    button.id = `${calidad.height}`;
+                    button.innerText = calidad.height + "p";
+
+                    button.addEventListener("click", () => {
+                        resetCalidad(params);
+                        button.classList.add("selected");
+                        calidad.enabled(true);
+                    });
+
+                    menu.appendChild(button);
+                });
+
+                setInterval(() => {
+                    let auto = document.querySelector("#auto");
+                    current = player
+                        .tech({ IWillNotUseThisInPlugins: true })
+                        .hls.selectPlaylist().attributes.RESOLUTION.height;
+                    console.log(current);
+
+                    document.querySelector("#auto").innerHTML = auto.classList.contains(
+                        "selected"
+                    )
+                        ? `Auto <span class='current'>${current}p</span>`
+                        : "Auto";
+                }, 1000);
+
+
+            }
+
+            function removeSelected(params) {
+                document.querySelector("#auto").classList.remove("selected");
+                [...document.querySelectorAll(`.${params.class}`)].map(calidad => {
+                    calidad.classList.remove("selected");
+                });
+            }
+
+            function resetCalidad(params) {
+                removeSelected(params);
+
+                for (let calidad of params.calidades) {
+                    calidad.enabled(false);
+                }
+            }
+        });
+    });
+
+</script> -->
 
 </html>
